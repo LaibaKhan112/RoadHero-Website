@@ -17,7 +17,7 @@ export default function Home() {
       <HowItWorksSection />
       <AppShowcaseSection />
       <WhyChooseRoadHeroSection />
-      <StatsStripSection />
+      {/* <StatsStripSection /> */}
       <ProviderRecruitmentBanner />
       <TestimonialsSection />
       <FAQDownloadSection />

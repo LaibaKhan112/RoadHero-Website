@@ -27,7 +27,7 @@ const contactDetails: ContactDetail[] = [
     icon: Mail,
     title: "Email",
     value: "info@roadhero.com",
-    href: "mailto:info@roadhero.com",
+    href: "mailto:info@roadherosapp.com",
   },
   {
     icon: MapPin,
