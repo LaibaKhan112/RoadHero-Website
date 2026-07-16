@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 import { Apple, Minus, Plus, PlayCircle } from "lucide-react";
+import ComingSoonModal from "@/components/ui/ComingSoonModal";
 import { faqs } from "@/data/faqs";
 
 const storeBadgeFocusRing =
@@ -10,6 +11,7 @@ const storeBadgeFocusRing =
 
 export default function FAQDownloadSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
   const reactId = useId();
 
   return (
@@ -75,33 +77,40 @@ export default function FAQDownloadSection() {
             />
 
             <div className="absolute bottom-3 left-3 flex gap-2 sm:bottom-6 sm:left-6 sm:gap-3 lg:bottom-8 lg:left-8">
-              {/* Apps aren't live yet, so these badges route to Contact rather than a real store URL. */}
-              <a
-                href="#contact"
-                aria-label="App Store download — coming soon, contact us for updates"
+              {/* Apps aren't live yet, so these badges open a "Coming Soon" popup instead of a real store URL. */}
+              <button
+                type="button"
+                onClick={() => setIsComingSoonOpen(true)}
+                aria-label="App Store download — coming soon"
                 className={`flex items-center gap-1.5 rounded-md bg-black px-2 py-1.5 text-white transition-colors hover:bg-neutral-800 sm:gap-2 sm:rounded-lg sm:px-3 sm:py-2 ${storeBadgeFocusRing}`}
               >
                 <Apple className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" aria-hidden="true" />
-                <span className="flex flex-col leading-none">
+                <span className="flex flex-col items-start leading-none">
                   <span className="text-[6px] sm:text-[9px]">Download on the</span>
                   <span className="text-[9px] font-semibold sm:text-xs">App Store</span>
                 </span>
-              </a>
-              <a
-                href="#contact"
-                aria-label="Google Play download — coming soon, contact us for updates"
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsComingSoonOpen(true)}
+                aria-label="Google Play download — coming soon"
                 className={`flex items-center gap-1.5 rounded-md bg-black px-2 py-1.5 text-white transition-colors hover:bg-neutral-800 sm:gap-2 sm:rounded-lg sm:px-3 sm:py-2 ${storeBadgeFocusRing}`}
               >
                 <PlayCircle className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" aria-hidden="true" />
-                <span className="flex flex-col leading-none">
+                <span className="flex flex-col items-start leading-none">
                   <span className="text-[6px] sm:text-[9px]">GET IT ON</span>
                   <span className="text-[9px] font-semibold sm:text-xs">Google Play</span>
                 </span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <ComingSoonModal
+        isOpen={isComingSoonOpen}
+        onClose={() => setIsComingSoonOpen(false)}
+      />
     </section>
   );
 }

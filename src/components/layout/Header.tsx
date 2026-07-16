@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
-import { navItems } from "@/data/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { navHref, navItems } from "@/data/navigation";
 
 const HEADER_HEIGHT_PX = 80;
 
@@ -11,6 +13,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>("home");
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     function onScroll() {
@@ -69,6 +72,28 @@ export default function Header() {
   const linkFocusRing =
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-roadhero-orange";
 
+  // On the homepage, hijack the click for an in-page smooth scroll instead of
+  // a full navigation. On any other route, let Link do a real navigation to
+  // "/" (or "/#id"), since these section ids don't exist on the current page.
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (pathname !== "/") return;
+
+    event.preventDefault();
+
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (window.location.hash) window.history.pushState(null, "", "/");
+      return;
+    }
+
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `#${id}`);
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${
@@ -76,8 +101,9 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a
-          href="#home"
+        <Link
+          href="/"
+          onClick={(event) => handleNavClick(event, "home")}
           className={`flex h-16 w-30 shrink-0 items-center justify-start overflow-hidden ${linkFocusRing}`}
         >
           <Image
@@ -88,22 +114,24 @@ export default function Header() {
             priority
             className="max-h-16 w-auto object-contain"
           />
-        </a>
+        </Link>
 
         <nav className="hidden md:flex md:items-center md:gap-8">
           {navItems.map((item) =>
             item.variant === "button" ? (
-              <a
+              <Link
                 key={item.id}
-                href={`#${item.id}`}
+                href={navHref(item.id)}
+                onClick={(event) => handleNavClick(event, item.id)}
                 className={`rounded-full bg-roadhero-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-roadhero-orange/90 ${linkFocusRing}`}
               >
                 {item.label}
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 key={item.id}
-                href={`#${item.id}`}
+                href={navHref(item.id)}
+                onClick={(event) => handleNavClick(event, item.id)}
                 className={`relative py-1 text-sm font-medium transition-colors ${linkFocusRing} ${
                   activeId === item.id
                     ? "text-roadhero-orange after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-roadhero-orange"
@@ -111,7 +139,7 @@ export default function Header() {
                 }`}
               >
                 {item.label}
-              </a>
+              </Link>
             )
           )}
         </nav>
@@ -155,20 +183,26 @@ export default function Header() {
       >
         {navItems.map((item) =>
           item.variant === "button" ? (
-            <a
+            <Link
               key={item.id}
-              href={`#${item.id}`}
-              onClick={closeMobileMenu}
+              href={navHref(item.id)}
+              onClick={(event) => {
+                handleNavClick(event, item.id);
+                closeMobileMenu();
+              }}
               tabIndex={mobileOpen ? 0 : -1}
               className={`mt-4 rounded-full bg-roadhero-orange px-5 py-3 text-center text-base font-semibold text-white ${linkFocusRing}`}
             >
               {item.label}
-            </a>
+            </Link>
           ) : (
-            <a
+            <Link
               key={item.id}
-              href={`#${item.id}`}
-              onClick={closeMobileMenu}
+              href={navHref(item.id)}
+              onClick={(event) => {
+                handleNavClick(event, item.id);
+                closeMobileMenu();
+              }}
               tabIndex={mobileOpen ? 0 : -1}
               className={`rounded-md px-3 py-3 text-lg font-medium ${linkFocusRing} ${
                 activeId === item.id
@@ -177,7 +211,7 @@ export default function Header() {
               }`}
             >
               {item.label}
-            </a>
+            </Link>
           )
         )}
       </div>

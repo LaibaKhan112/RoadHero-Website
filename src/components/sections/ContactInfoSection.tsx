@@ -11,25 +11,28 @@ type ContactDetail = {
   title: string;
   value: string;
   href?: string;
+  ariaLabel?: string;
 };
 
 const contactDetails: ContactDetail[] = [
   {
     icon: Phone,
     title: "Phone",
-    value: "+1 (123) 456-7890",
-    href: "tel:+11234567890",
+    value: "+1 (845) 746-8828",
+    // Opens a WhatsApp chat rather than starting a phone call.
+    href: "https://wa.me/18457468828",
+    ariaLabel: "Chat with RoadHero on WhatsApp: +1 (845) 746-8828",
   },
   {
     icon: Mail,
     title: "Email",
-    value: "support@roadhero.com",
-    href: "mailto:support@roadhero.com",
+    value: "info@roadhero.com",
+    href: "mailto:info@roadhero.com",
   },
   {
     icon: MapPin,
     title: "Location",
-    value: "123 RoadHero St, Beverly Hills, CA 90210, USA",
+    value: "479 Golf Ct, Valley Stream, NY 11581, USA",
   },
 ];
 
@@ -88,6 +91,10 @@ export default function ContactInfoSection() {
                   {detail.href ? (
                     <a
                       href={detail.href}
+                      aria-label={detail.ariaLabel}
+                      {...(detail.href.startsWith("https://")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
                       className={`text-sm text-neutral-500 transition-colors hover:text-roadhero-orange ${linkFocusRing}`}
                     >
                       {detail.value}

@@ -4,6 +4,12 @@ export type NavItem = {
   variant?: "button";
 };
 
+// Homepage section links must always be reachable from any route (e.g. the
+// legal pages), so hrefs are homepage-prefixed rather than bare hashes.
+export function navHref(id: string): string {
+  return id === "home" ? "/" : `/#${id}`;
+}
+
 export const navItems: NavItem[] = [
   { label: "Home", id: "home" },
   { label: "Services", id: "services" },
