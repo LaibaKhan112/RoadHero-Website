@@ -95,126 +95,134 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${
-        scrolled ? "bg-black/85 backdrop-blur-md shadow-lg" : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          onClick={(event) => handleNavClick(event, "home")}
-          className={`flex h-16 w-30 shrink-0 items-center justify-start overflow-hidden ${linkFocusRing}`}
-        >
-          <Image
-            src="/images/logo/roadhero-logo.png"
-            alt="RoadHero"
-            width={120}
-            height={64}
-            priority
-            className="max-h-16 w-auto object-contain"
-          />
-        </Link>
-
-        <nav className="hidden md:flex md:items-center md:gap-8">
-          {navItems.map((item) =>
-            item.variant === "button" ? (
-              <Link
-                key={item.id}
-                href={navHref(item.id)}
-                onClick={(event) => handleNavClick(event, item.id)}
-                className={`rounded-full bg-roadhero-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-roadhero-orange/90 ${linkFocusRing}`}
-              >
-                {item.label}
-              </Link>
-            ) : (
-              <Link
-                key={item.id}
-                href={navHref(item.id)}
-                onClick={(event) => handleNavClick(event, item.id)}
-                className={`relative py-1 text-sm font-medium transition-colors ${linkFocusRing} ${
-                  activeId === item.id
-                    ? "text-roadhero-orange after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-roadhero-orange"
-                    : "text-neutral-200 hover:text-roadhero-orange"
-                }`}
-              >
-                {item.label}
-              </Link>
-            )
-          )}
-        </nav>
-
-        <button
-          ref={toggleButtonRef}
-          type="button"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-menu"
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMobileOpen((open) => !open)}
-          className={`relative flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden ${linkFocusRing}`}
-        >
-          <span
-            aria-hidden="true"
-            className={`block h-0.5 w-6 bg-white transition-transform duration-300 motion-reduce:transition-none ${
-              mobileOpen ? "translate-y-2 rotate-45" : ""
-            }`}
-          />
-          <span
-            aria-hidden="true"
-            className={`block h-0.5 w-6 bg-white transition-opacity duration-300 motion-reduce:transition-none ${
-              mobileOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <span
-            aria-hidden="true"
-            className={`block h-0.5 w-6 bg-white transition-transform duration-300 motion-reduce:transition-none ${
-              mobileOpen ? "-translate-y-2 -rotate-45" : ""
-            }`}
-          />
-        </button>
-      </div>
-
-      <div
-        id="mobile-menu"
-        aria-hidden={!mobileOpen}
-        className={`fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col gap-2 overflow-y-auto bg-neutral-900 px-6 py-8 transition-transform duration-300 ease-in-out motion-reduce:transition-none md:hidden ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${
+          scrolled ? "bg-black/85 backdrop-blur-md shadow-lg" : "bg-transparent"
         }`}
       >
-        {navItems.map((item) =>
-          item.variant === "button" ? (
-            <Link
-              key={item.id}
-              href={navHref(item.id)}
-              onClick={(event) => {
-                handleNavClick(event, item.id);
-                closeMobileMenu();
-              }}
-              tabIndex={mobileOpen ? 0 : -1}
-              className={`mt-4 rounded-full bg-roadhero-orange px-5 py-3 text-center text-base font-semibold text-white ${linkFocusRing}`}
-            >
-              {item.label}
-            </Link>
-          ) : (
-            <Link
-              key={item.id}
-              href={navHref(item.id)}
-              onClick={(event) => {
-                handleNavClick(event, item.id);
-                closeMobileMenu();
-              }}
-              tabIndex={mobileOpen ? 0 : -1}
-              className={`rounded-md px-3 py-3 text-lg font-medium ${linkFocusRing} ${
-                activeId === item.id
-                  ? "text-roadhero-orange"
-                  : "text-neutral-200 hover:text-roadhero-orange"
-              }`}
-            >
-              {item.label}
-            </Link>
-          )
-        )}
-      </div>
-    </header>
+        <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/"
+            onClick={(event) => handleNavClick(event, "home")}
+            className={`flex h-16 w-30 shrink-0 items-center justify-start overflow-hidden ${linkFocusRing}`}
+          >
+            <Image
+              src="/images/logo/roadhero-logo.png"
+              alt="RoadHero"
+              width={120}
+              height={64}
+              priority
+              className="max-h-16 w-auto object-contain"
+            />
+          </Link>
+
+          <nav className="hidden md:flex md:items-center md:gap-8">
+            {navItems.map((item) =>
+              item.variant === "button" ? (
+                <Link
+                  key={item.id}
+                  href={navHref(item.id)}
+                  onClick={(event) => handleNavClick(event, item.id)}
+                  className={`rounded-full bg-roadhero-orange px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-roadhero-orange/90 ${linkFocusRing}`}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.id}
+                  href={navHref(item.id)}
+                  onClick={(event) => handleNavClick(event, item.id)}
+                  className={`relative py-1 text-sm font-medium transition-colors ${linkFocusRing} ${
+                    activeId === item.id
+                      ? "text-roadhero-orange after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:bg-roadhero-orange"
+                      : "text-neutral-200 hover:text-roadhero-orange"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+          </nav>
+
+          {/* Real toggle button is rendered fixed below (outside the header's
+              blurred box) so it stays clickable above the full-screen menu.
+              This placeholder just reserves its layout space in the row. */}
+          <div aria-hidden="true" className="h-10 w-10 md:hidden" />
+        </div>
+      </header>
+
+      <button
+        ref={toggleButtonRef}
+        type="button"
+        aria-expanded={mobileOpen}
+        aria-controls="mobile-menu"
+        aria-label={mobileOpen ? "Close menu" : "Open menu"}
+        onClick={() => setMobileOpen((open) => !open)}
+        className={`fixed right-4 top-5 z-[9999] flex h-10 w-10 flex-col items-center justify-center gap-1.5 sm:right-6 md:hidden ${linkFocusRing}`}
+      >
+        <span
+          aria-hidden="true"
+          className={`block h-0.5 w-6 bg-white transition-transform duration-300 motion-reduce:transition-none ${
+            mobileOpen ? "translate-y-2 rotate-45" : ""
+          }`}
+        />
+        <span
+          aria-hidden="true"
+          className={`block h-0.5 w-6 bg-white transition-opacity duration-300 motion-reduce:transition-none ${
+            mobileOpen ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        <span
+          aria-hidden="true"
+          className={`block h-0.5 w-6 bg-white transition-transform duration-300 motion-reduce:transition-none ${
+            mobileOpen ? "-translate-y-2 -rotate-45" : ""
+          }`}
+        />
+      </button>
+
+      {mobileOpen && (
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[9998] flex flex-col overflow-y-auto bg-neutral-900 pt-24 pb-8 md:hidden"
+        >
+          <nav className="flex flex-col gap-2 px-6">
+            {navItems.map((item) =>
+              item.variant === "button" ? (
+                <Link
+                  key={item.id}
+                  href={navHref(item.id)}
+                  onClick={(event) => {
+                    handleNavClick(event, item.id);
+                    closeMobileMenu();
+                  }}
+                  className={`mt-4 rounded-full bg-roadhero-orange px-5 py-3 text-center text-base font-semibold text-white ${linkFocusRing}`}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.id}
+                  href={navHref(item.id)}
+                  onClick={(event) => {
+                    handleNavClick(event, item.id);
+                    closeMobileMenu();
+                  }}
+                  className={`rounded-md px-3 py-3 text-lg font-medium ${linkFocusRing} ${
+                    activeId === item.id
+                      ? "text-roadhero-orange"
+                      : "text-neutral-200 hover:text-roadhero-orange"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+          </nav>
+        </div>
+      )}
+    </>
   );
 }
